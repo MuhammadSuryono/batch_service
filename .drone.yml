@@ -1,0 +1,44 @@
+#TODO: change image name
+kind: pipeline
+type: docker
+name: build
+
+steps:
+  - name: "build app"
+    image: golang:1.14
+    environment:
+      GOOS: linux
+      GOARCH: amd64
+      CGO_ENABLED: 0
+    commands:
+      - go get
+      - go build -o pdflegal-excel-import
+  - name: "build image"
+    image: plugins/docker
+    settings:
+      repo: ptdmk/SKELETON
+      tags:
+        - dev-${DRONE_COMMIT_SHA:0:6}
+        - dev-latest
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+      dockerfile: Dockerfile
+  - name: "notification dingtalk"
+    image: lddsb/drone-dingtalk-message
+    settings:
+      token:
+        from_secret: dingtalk_token
+      type: markdown
+      message_color: true
+      sha_link: false
+      tpl: .dingtalk
+      success_color: 34A853
+      failure_color: EA4335
+trigger:
+  branch:
+    - dev/master
+  event:
+    - push
+    - pull_request

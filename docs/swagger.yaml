@@ -1,0 +1,198 @@
+basePath: /
+definitions:
+  handler.UserRequest:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  handler.UserResponse:
+    properties:
+      is_success:
+        type: boolean
+      message:
+        type: string
+      user_id:
+        type: integer
+    type: object
+host: localhost:7000
+info:
+  contact:
+    email: emhusnan@lifewood.com
+    name: Husnan
+    url: https://lifewood.com
+  description: Handler service for user
+  license:
+    name: LiFT Lifewood
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: LiFT - User Service
+  version: 0.0.1
+paths:
+  /v1/users:
+    get:
+      consumes:
+      - application/json
+      description: Get paginated list of users
+      parameters:
+      - description: Bearer <token>
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Payload body
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/handler.UserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.UserResponse'
+      summary: Get User
+      tags:
+      - Users
+    post:
+      consumes:
+      - application/json
+      description: Create new user
+      parameters:
+      - description: Bearer <token>
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Payload body
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/handler.UserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.UserResponse'
+      summary: Create new user
+      tags:
+      - Users
+  /v1/users/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete spesific user
+      parameters:
+      - description: Bearer <token>
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Payload body
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/handler.UserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.UserResponse'
+      summary: Delete User
+      tags:
+      - Users
+    put:
+      consumes:
+      - application/json
+      description: Update spesific user
+      parameters:
+      - description: Bearer <token>
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Payload body
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/handler.UserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.UserResponse'
+      summary: Update User
+      tags:
+      - Users
+  /v1/users/{id}/change-passsword:
+    put:
+      consumes:
+      - application/json
+      description: Update spesific user password
+      parameters:
+      - description: Bearer <token>
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Payload body
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/handler.UserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.UserResponse'
+      summary: Change User Password
+      tags:
+      - Users
+  /v1/users/search/{query}:
+    get:
+      consumes:
+      - application/json
+      description: Search name of user, return paginated list of users
+      parameters:
+      - description: Bearer <token>
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Payload body
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/handler.UserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.UserResponse'
+      summary: Search User
+      tags:
+      - Users
+securityDefinitions:
+  AuthToken:
+    in: header
+    name: 'Authorization "Bearer: xxxxxx"'
+    type: apiKey
+swagger: "2.0"
