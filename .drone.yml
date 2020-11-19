@@ -12,7 +12,7 @@ steps:
       CGO_ENABLED: 0
     commands:
       - go get
-      - go build -o pdflegal-excel-import
+      - go build -o skeleton
   - name: "build image"
     image: plugins/docker
     settings:

@@ -2,7 +2,7 @@ package handler
 
 import (
 	"git.lifewood.dev/common-service/response"
-	"git.lifewood.dev/services/user/model"
+	"git.lifewood.dev/services/skeleton/model"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
