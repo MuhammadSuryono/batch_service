@@ -2,17 +2,16 @@ package main
 
 import (
 	"git.lifewood.dev/common-service/db"
-	_ "git.lifewood.dev/services/user/docs"
-	"git.lifewood.dev/services/user/model"
+	_ "git.lifewood.dev/services/skeleton/docs"
+	"git.lifewood.dev/services/skeleton/model"
+	"github.com/joho/godotenv"
+	"log"
 
 	"github.com/gin-contrib/cors"
 
 	"github.com/gin-gonic/gin"
-	"github.com/joho/godotenv"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
-
-	"log"
 )
 
 // @title LiFT - User Service
@@ -39,7 +38,7 @@ func main() {
 		log.Fatal("Error loading .env file")
 	}
 	db.Init()
-	db.GormDb.AutoMigrate(&model.User{})
+	db.GormDb.AutoMigrate(&model.SkeletonRequest{})
 	r := gin.Default()
 
 	r.Use(cors.New(cors.Config{
@@ -48,9 +47,13 @@ func main() {
 		AllowHeaders:  []string{"Origin", "Content-Type"},
 		ExposeHeaders: []string{"Content-Length"},
 	}))
-	r.Group("/v1", func(context *gin.Context) {
+	v1 := r.Group("/v1")
+	{
 		// TODO: update your handler
-	})
+		v1.GET("/ping", func(context *gin.Context) {
+			context.JSON(200, "ok")
+		})
+	}
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	r.Run(":7000")

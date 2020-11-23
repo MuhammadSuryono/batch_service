@@ -41,4 +41,31 @@ trigger:
     - dev/master
   event:
     - push
-    - pull_request
+---
+kind: pipeline
+type: docker
+name: deploy dev
+
+steps:
+  - name: deploy_dev
+    image: pelotech/drone-helm3
+    settings:
+      helm_command: upgrade
+      chart: lwcharts/lifewood-golang
+      release: skeleton-service
+      api_server:
+        from_secret: dev_k8s_api_url
+      kubernetes_token:
+        from_secret: dev_k8s_api_token
+      namespace: lift-dev
+      add_repos:
+        - lwcharts=https://charts.lifewood.dev
+      string_values:
+        - subDomain=lift-dev.lifewood.dev/api/skeleton
+        - containerImage=ptdmk/SKELETON:dev-${DRONE_COMMIT_SHA:0:6}
+        - nginxPort=7000
+trigger:
+  branch:
+    - dev/master
+  event:
+    - push
