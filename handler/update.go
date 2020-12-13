@@ -1,10 +1,7 @@
 package handler
 
 import (
-	"git.lifewood.dev/common-service/response"
-	"git.lifewood.dev/services/skeleton/model"
 	"github.com/gin-gonic/gin"
-	"net/http"
 )
 
 // HandleUpdate godoc
@@ -18,15 +15,15 @@ import (
 // @Success 200 {object} model.UserResponse
 // @Failure 200 {object} model.UserResponse
 // @Router /v1/users/{id} [put]
-func (*SkeletonHandler) HandleUpdate(c *gin.Context) {
+func (*BatchHanlder) HandleUpdate(c *gin.Context) {
 	//TODO: change your bind request update
-	var r model.SkeletonRequest
-	c.BindJSON(&r)
-	//TODO: your logic update here
-
-	//TODO: adjust update response
-	c.JSON(http.StatusOK,
-		model.SkeletonResponse{
-			BaseResponse: response.BaseResponse{},
-		})
+	//var r model.SkeletonRequest
+	//c.BindJSON(&r)
+	////TODO: your logic update here
+	//
+	////TODO: adjust update response
+	//c.JSON(http.StatusOK,
+	//	model.SkeletonResponse{
+	//		BaseResponse: response.BaseResponse{},
+	//	})
 }

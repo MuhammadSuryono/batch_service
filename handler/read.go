@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"git.lifewood.dev/common-service/response"
+	db2 "git.lifewood.dev/common-service/db"
 	"git.lifewood.dev/services/skeleton/model"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -18,17 +18,32 @@ import (
 // @Success 200 {object} UserResponse
 // @Failure 200 {object} UserResponse
 // @Router /v1/users [get]
-func (*SkeletonHandler) HandleList(c *gin.Context) {
+func (*BatchHanlder) HandleAllBatch(c *gin.Context) {
 	//TODO: change your bind request list
-	var r model.SkeletonRequest
-	c.BindJSON(&r)
+	var queryRequest model.QueryRequest
+	c.BindQuery(&queryRequest)
+
 	//TODO: your logic list here
+	db := db2.GormDb
+	dataBatch := model.PaginationBatch(db, queryRequest)
 
 	//TODO: adjust response list
-	c.JSON(http.StatusOK,
-		model.SkeletonResponse{
-			BaseResponse: response.BaseResponse{},
-		})
+	c.JSON(http.StatusOK, dataBatch)
+}
+
+func (*BatchHanlder) HandleProjectBatch(c *gin.Context) {
+	//TODO: change your bind request list
+	var queryRequest model.QueryRequest
+	var uriCodeProject model.UriProjectId
+	c.BindQuery(&queryRequest)
+	c.BindUri(&uriCodeProject)
+
+	//TODO: your logic list here
+	db := db2.GormDb.Where("id_project = ? ", uriCodeProject.ProjectCode)
+	dataBatch := model.PaginationBatch(db, queryRequest)
+
+	//TODO: adjust response list
+	c.JSON(http.StatusOK, dataBatch)
 }
 
 // HandleSearch godoc
@@ -42,15 +57,15 @@ func (*SkeletonHandler) HandleList(c *gin.Context) {
 // @Success 200 {object} UserResponse
 // @Failure 200 {object} UserResponse
 // @Router /v1/users/search/{query} [get]
-func (*SkeletonHandler) HandleSearch(c *gin.Context) {
+func (*BatchHanlder) HandleSearch(c *gin.Context) {
 	//TODO: change your bind request search
-	var r model.SkeletonRequest
-	c.BindJSON(&r)
-	//TODO: your logic search here
-
-	//TODO: adjust response search
-	c.JSON(http.StatusOK,
-		model.SkeletonResponse{
-			BaseResponse: response.BaseResponse{},
-		})
+	//var r model.SkeletonRequest
+	//c.BindJSON(&r)
+	////TODO: your logic search here
+	//
+	////TODO: adjust response search
+	//c.JSON(http.StatusOK,
+	//	model.SkeletonResponse{
+	//		BaseResponse: response.BaseResponse{},
+	//	})
 }
