@@ -1,10 +1,12 @@
 package middleware
 
 import (
+	"fmt"
 	"git.lifewood.dev/services/skeleton/model"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"os"
+	"time"
 )
 
 func AuthorizeHeader() gin.HandlerFunc {
@@ -34,4 +36,17 @@ func AuthorizeHeader() gin.HandlerFunc {
 
 		c.Next()
 	}
+}
+
+func LoggerCustome() gin.HandlerFunc {
+	return gin.LoggerWithFormatter(func(param gin.LogFormatterParams) string {
+		return fmt.Sprintf("%s - [%s] %s %s %d %s \n",
+			param.ClientIP,
+			param.TimeStamp.Format(time.RFC822),
+			param.Method,
+			param.Path,
+			param.StatusCode,
+			param.Latency,
+		)
+	})
 }

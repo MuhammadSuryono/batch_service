@@ -9,6 +9,7 @@ import (
 	"github.com/joho/godotenv"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
+	"io"
 	"log"
 	"net/http"
 	"os"
@@ -37,6 +38,9 @@ import (
 // @in header
 // @name Authorization "Bearer: xxxxxx"
 func main() {
+
+	setLog()
+
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatal("Error loading .env file")
@@ -53,6 +57,8 @@ func main() {
 		AllowHeaders:  []string{"Content-Type", "Content-Length", "Accept-Encoding", "X-CSRF-Token", "Authorization", "accept", "origin", "Cache-Control", "X-Requested-With"},
 		ExposeHeaders: []string{"Content-Length"},
 	}))
+
+	r.Use(gin.Recovery(), gin.Logger())
 
 	r.NoRoute(func(context *gin.Context) {
 		context.JSON(http.StatusNotFound, model.CommonResponse{
@@ -84,6 +90,7 @@ func main() {
 			v1.GET("/batchs", handle.HandleAllBatch)
 			v1.GET("/batchs/project/:projectCode", handle.HandleProjectBatch)
 			v1.GET("/batchs/check/:idBatch", handle.HandleCheck)
+			v1.POST("/batchs/reallocate", handle.ReallocateBatch)
 			v1.POST("/batchs", handle.HandleCreate)
 		}
 	}
@@ -95,4 +102,9 @@ func main() {
 
 	r.Run(":" + port)
 
+}
+
+func setLog() {
+	f, _ := os.Create(os.Getenv("APP_NAME") + ".log")
+	gin.DefaultWriter = io.MultiWriter(f, os.Stdout)
 }

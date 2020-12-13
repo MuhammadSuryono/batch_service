@@ -9,6 +9,7 @@ type IBatchHanlder interface {
 	HandleAllBatch(c *gin.Context)
 	HandleProjectBatch(c *gin.Context)
 	HandleCheck(c *gin.Context)
+	ReallocateBatch(c *gin.Context)
 }
 
 type BatchHanlder struct {

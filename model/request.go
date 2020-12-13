@@ -20,6 +20,7 @@ type UriProjectId struct {
 
 type RequestCreate struct {
 	IdProject int64  `json:"id_project" binding:"required"`
+	IdSite    int64  `json:"id_site" binding:"required"`
 	ImageQty  int64  `json:"image_qty" binding:"required"`
 	BatchName string `json:"batch_name" binding:"required"`
 	Split     int64  `json:"split" binding:"required"`
@@ -29,6 +30,11 @@ type RequestCreate struct {
 
 type UriIdBatch struct {
 	IdBatch int64 `uri:"idBatch"`
+}
+
+type RequestReallocate struct {
+	IdBatch []int64 `json:"id_batch" binding:"required"`
+	IdSite  int64   `json:"id_site" binding:"required"`
 }
 
 func EncodeJsonMarshal(data interface{}) string {
