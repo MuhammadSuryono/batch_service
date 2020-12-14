@@ -54,6 +54,7 @@ func (*BatchHanlder) HandleCreate(c *gin.Context) {
 
 	batch := &model.Batch{
 		IdProject: requestCreate.IdProject,
+		IdSite: requestCreate.IdSite,
 		BatchName: requestCreate.BatchName,
 		ImageQty:  requestCreate.ImageQty,
 		Split:     requestCreate.Split,

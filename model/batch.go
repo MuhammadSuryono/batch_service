@@ -6,6 +6,7 @@ import (
 
 type Batch struct {
 	IdProject   int64  `gorm:"type:BIGINT" json:"id_project"`
+	IdSite int64 `gorm:"type:BIGINT" json:"id_site"`
 	BatchName   string `gorm:"type:VARCHAR(20)" json:"batch_name"`
 	ImageQty    int64  `gorm:"type:BIGINT" json:"image_qty"`
 	Split       int64  `gorm:"type:BIGINT" json:"split"`
